@@ -42,6 +42,7 @@ pip install webdriver_manager
 # Usage
 
 ```bash
+url = 'https://www.google.com/'
 driver = Selenium(url)
 print(driver.page_source)
 ```
