@@ -14,13 +14,16 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # ------ Tor の起動 ------
 def Start_tor():
-    # kill
-    subprocess.call(r'taskkill /F /T /IM tor.exe', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    time.sleep(1)
-    # run
-    Tor = f'C:\\Users\\{getpass.getuser()}\\Desktop\\Tor Browser\\Browser\\TorBrowser\\Tor\\tor.exe'
-    subprocess.Popen(Tor)
-    time.sleep(1)
+    try:
+        # kill
+        subprocess.call(r'taskkill /F /T /IM tor.exe', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        time.sleep(1)
+        # run
+        Tor = f'C:\\Users\\{getpass.getuser()}\\Desktop\\Tor Browser\\Browser\\TorBrowser\\Tor\\tor.exe'
+        subprocess.Popen(Tor)
+        time.sleep(1)
+    except:
+        pass
 
 
 # ------ Selenium の起動 ------
