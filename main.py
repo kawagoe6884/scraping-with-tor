@@ -14,16 +14,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 # ------ Tor の起動 ------
 def Start_tor():
-    try:
-        # kill
-        subprocess.call(r'taskkill /F /T /IM tor.exe', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        time.sleep(1)
-        # run
-        Tor = f'C:\\Users\\{getpass.getuser()}\\Desktop\\Tor Browser\\Browser\\TorBrowser\\Tor\\tor.exe'
-        subprocess.Popen(Tor)
-        time.sleep(1)
-    except:
-        pass
+    global running
+    # kill
+    subprocess.call(r'taskkill /F /T /IM tor.exe', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    time.sleep(1)
+    # run
+    Tor = f'C:\\Users\\{getpass.getuser()}\\Desktop\\Tor Browser\\Browser\\TorBrowser\\Tor\\tor.exe'
+    running = subprocess.Popen(Tor)
+    time.sleep(1)
 
 
 # ------ Selenium の起動 ------
@@ -34,8 +32,10 @@ def Start_selenium():
     # User-Agentを定義する
     UA = UserAgent().chrome
     # chrome-option
+    # https://stackoverflow.com/questions/53039551/selenium-webdriver-modifying-navigator-webdriver-flag-to-prevent-selenium-detec/53040904
     options = Options()
-    # options.add_argument('--proxy-server=socks5://localhost:9050')  # Tor 使わないならコメントアウト
+    if 'running' in globals():
+        options.add_argument('--proxy-server=socks5://localhost:9050')
     options.add_argument('--start-maximized')
     options.add_argument('--disable-blink-features')
     options.add_argument('--disable-blink-features=AutomationControlled')
@@ -75,7 +75,7 @@ def Selenium(url):
             try:
                 driver.get(url)
             except:
-                Start_tor()
+                # Start_tor() # Tor 使わないならコメントアウト
                 driver = Start_selenium()
             else:
                 WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located)
@@ -85,4 +85,3 @@ def Selenium(url):
     except Exception as e:
         raise e
     return driver
-
