@@ -29,25 +29,26 @@ def Start_selenium():
     # kill
     subprocess.call(r'taskkill /F /T /IM chromedriver.exe', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(1)
-    # User-Agentを定義する
-    UA = UserAgent().chrome
     # chrome-option
     options = Options()
     if 'running' in globals():
+        # Tor のProxy設定を通す
         options.add_argument('--proxy-server=socks5://localhost:9050')
+        # User-Agentを定義する
+        UA = UserAgent().chrome
+        options.add_argument('--user-agent=' + UA)
+    options.add_argument('--headless')
     options.add_argument('--start-maximized')
     options.add_argument('--disable-blink-features')
     options.add_argument('--disable-blink-features=AutomationControlled')
-    options.add_argument('--user-agent=' + UA)
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-infobars')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-browser-side-navigation')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-extensions')
     options.add_argument('--disable-gpu')
+    options.add_argument('--disable-infobars')
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
-    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
     prefs = {'profile.default_content_setting_values.notifications' : 2}
     options.add_experimental_option('prefs', prefs)
     options.add_experimental_option("excludeSwitches", ['enable-automation'])  # navigator.webdriver=undefined とする設定
