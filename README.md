@@ -27,6 +27,7 @@ The "navigator.webdriver=undefined" setting is also factored in.
 
 # Requirement
 
+* Windows10 64bit
 * Python 3.8.7 64-bit
 * selenium 3.141.0
 * fake-useragent 0.1.11
