@@ -32,7 +32,6 @@ def Start_selenium():
     # User-Agentを定義する
     UA = UserAgent().chrome
     # chrome-option
-    # https://stackoverflow.com/questions/53039551/selenium-webdriver-modifying-navigator-webdriver-flag-to-prevent-selenium-detec/53040904
     options = Options()
     if 'running' in globals():
         options.add_argument('--proxy-server=socks5://localhost:9050')
