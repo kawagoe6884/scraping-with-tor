@@ -1,69 +1,63 @@
-# Name
-scraping-with-tor
+# Jpn
+### これは何？
+url = 'https://www.hogehoge.jp'
+<br>上記の変数"url"にアクセスしたい
 
-アクセス過多によるサーバーから接続規制を回避する。
+1. 関数Start_torを使ってグローバルIPを変更する
+1. 変数"url"にアクセスする
+1. 何回かアクセスする
+1. IPアドレス制限を受けてアクセス不可になった
+1. 最初に戻る
 
-Avoid connection restrictions from the server due to excessive access.
+というごく一部の層に需要がありそうで無さそうな処理
 
-# DEMO
+<br>
 
-用意する予定は今のところ無し。
 
-No plans to prepare it at the moment.
 
-# Features
+### Tor の準備
+1. https://www.torproject.org/download/tor/ から"Windows Expert Bundle"をダウンロードする
+1. デスクトップに解凍する(任意のディレクトリでも可)
+1. 解凍したフォルダを開いて、"tor.exe"までのフルパスをコピー
+1. 22行目の変数"Tor"にフルパスを入れる
 
-とある1行のコメントアウトの切り替えでTorを使うか使わないか決める。
 
-気晴らし程度だが、ヘッダーにランダムなユーザーエージェント。
 
-ついでに ”navigator.webdriver=undefined” の設定も織り込み済み。
+### UserAgent の準備
+1. https://pypi.org/project/fake-useragent-ex/ から"fake-useragent-ex 0.1.12"をインストールする
+1. import fake_useragent<br>print(fake_useragent.VERSION)<br>で"0.1.12"が出力されればok
 
-Decide whether you want to use Tor or not by switching the comment out of one line.
+<br>
 
-Just a distraction, but a random user agent in the header.
 
-The "navigator.webdriver=undefined" setting is also factored in.
 
-# Requirement
+# Eng
+### What's this
+url = 'https://www.hogehoge.jp'
+<br>I want to access the "url" variable above.
 
-* Windows10 64bit
-* Python 3.8.7 64-bit
-* selenium 3.141.0
-* fake-useragent 0.1.11
-* webdriver-manager 3.5.2
 
-# Installation
+1. Change global IP using function Start_tor.
+1. Access the variable "url".
+1. Access the variable "url" several times.
+1. Access is disabled due to IP address restriction.
+1. Back to the beginning.
 
-```bash
-pip install fake-useragent
-pip install webdriver_manager
-```
+The process is likely to be in demand by a small segment of the population called.
 
-# Usage
+<br>
 
-```bash
-url = 'https://www.google.com/'
-driver = Selenium(url)
-print(driver.page_source)
-```
 
-# Note
 
-tor.exe が必要。main.pyでは適当なパスを通しているので必要に応じて変更すること。
+### Prepare for Tor
+1. Download the "Windows Expert Bundle" from https://www.torproject.org/download/tor/
+1. Unzip the file to your desktop (or any directory).
+1. Open the extracted folder and copy the full path to "tor.exe"
+1. Put the full path in the variable "Tor" on line 22.
 
-You will need tor.exe. main.py has an appropriate path, so change it if necessary.
 
-# Author
 
-* 作成者: kawagoe6884
-* 所属: 
-* E-mail: 
+### Prepare for UserAgent
+1. Install "fake-useragent-ex 0.1.12" from https://pypi.org/project/fake-useragent-ex/
+1. import fake_useragent<br>print(fake_useragent.VERSION)<br>If "0.1.12" is output, OK.
 
-# Special thanks
-
-このテンプレートの参照先URL
-
-Reference URL for this template.
-
-https://cpp-learning.com/readme/
