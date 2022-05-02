@@ -24,39 +24,37 @@ def Start_tor():
     time.sleep(1)
 
 
-# ------ Selenium の起動 ------
+# ------ Starting selenium ------
 def Start_selenium():
     # kill
     subprocess.call(r'taskkill /F /T /IM chromedriver.exe', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(1)
-    # chrome-option
+    # ------ ChromeDriver option ------
     options = Options()
-    if 'running' in globals():
-        # Tor のProxy設定を通す
-        options.add_argument('--proxy-server=socks5://localhost:9050')
-        # User-Agentを定義する
-        UA = UserAgent().chrome
-        options.add_argument('--user-agent=' + UA)
-    options.add_argument('--headless')
-    options.add_argument('--start-maximized')
-    options.add_argument('--disable-blink-features')
-    options.add_argument('--disable-blink-features=AutomationControlled')
-    options.add_argument('--disable-browser-side-navigation')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--disable-infobars')
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--ignore-ssl-errors')
-    options.add_argument('--no-sandbox')
-    prefs = {'profile.default_content_setting_values.notifications' : 2}
+    options.add_argument('--blink-settings=imagesEnabled=false')                    # 画像の非表示
+    options.add_argument('--disable-blink-features=AutomationControlled')           # navigator.webdriver=false とする設定
+    options.add_argument('--disable-browser-side-navigation')                       # Timed out receiving message from renderer: の修正
+    options.add_argument('--disable-dev-shm-usage')                                 # ディスクのメモリスペースを使う
+    options.add_argument('--disable-extensions')                                    # すべての拡張機能を無効
+    options.add_argument('--disable-gpu')                                           # GPUハードウェアアクセラレーションを無効
+    # options.add_argument('--headless')                                            # ヘッドレスモードで起動
+    options.add_argument('--ignore-certificate-errors')                             # SSL認証(この接続ではプライバシーが保護されません)を無効
+    options.add_argument('--incognito')                                             # シークレットモードで起動
+    options.add_argument('--no-sandbox')                                            # Chromeの保護機能を無効
+    # options.add_argument('--start-maximized')                                     # 初期のウィンドウサイズを最大化
+    options.add_argument('--window-size=1920,1080')                                 # 初期のウィンドウサイズを指定
+    options.add_experimental_option("excludeSwitches", ['enable-automation'])       # Chromeは自動テスト ソフトウェア~~ を非表示
+    prefs = {
+        'profile.default_content_setting_values.notifications' : 2,                 # 通知ポップアップを無効
+        'credentials_enable_service' : False,                                       # パスワード保存のポップアップを無効
+        'profile.password_manager_enabled' : False,                                 # パスワード保存のポップアップを無効
+        # 'download.default_directory' : download_dir                               # ダウンロード先のディレクトリを指定
+    }
     options.add_experimental_option('prefs', prefs)
-    options.add_experimental_option("excludeSwitches", ['enable-automation'])  # navigator.webdriver=undefined とする設定
-    # run
-    driver = webdriver.Chrome(ChromeDriverManager(log_level=0, print_first_line=False).install(), options=options)
-    # set
-    driver.implicitly_wait(60)
-    driver.set_window_size('1920', '1080')
+    options.add_experimental_option('useAutomationExtension', False)                # 拡張機能の自動更新を停止
+
+    # ------ Launch of ChromeDriver ------
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     return driver
 
 
@@ -85,3 +83,11 @@ def Selenium(url):
     except Exception as e:
         raise e
     return driver
+
+
+# ------ TRY ------
+url = 'https://www.hogehoge.jp'
+driver = Selenium(url)
+print(driver.current_url)
+# >>> https://www.hogehoge.jp
+
