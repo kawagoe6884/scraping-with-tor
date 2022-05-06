@@ -18,8 +18,15 @@ def Start_tor():
     ## kill
     subprocess.call(r'taskkill /F /T /IM tor.exe', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     time.sleep(1)
+    ## get_path
+    path = f'C:\\Users\\{getpass.getuser()}\\Desktop'
+    for file in glob.iglob(path + '\*'):
+        if os.path.isdir(file):
+            if 'tor-win32' in file:
+                path = file
+                for file in glob.iglob(path + '\\**\\tor.exe', recursive=True):
+                    Tor = file
     ## run
-    Tor = f'C:\\Users\\{getpass.getuser()}\\Desktop\\Tor Browser\\Browser\\TorBrowser\\Tor\\tor.exe'
     running = subprocess.Popen(Tor)
     time.sleep(1)
 
